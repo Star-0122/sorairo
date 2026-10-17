@@ -12,6 +12,15 @@ import Home from './pages/Home'
 import Services from './pages/Services'
 import { NewsList, NewsDetail } from './pages/News'
 import Account from './pages/Account'
+import AccountProfile from './pages/AccountProfile'
+import AccountNotifications from './pages/AccountNotifications'
+import AccountSecurity from './pages/AccountSecurity'
+import Card from './pages/Card'
+import Attendance from './pages/Attendance'
+import AdminDash from './pages/AdminDash'
+import { AdminStudents, AdminStudentEdit } from './pages/AdminStudents'
+import { AdminNewsList, AdminNewsEdit } from './pages/AdminNews'
+import { RequireAdmin, RequireStaff } from './components/Guards'
 
 function Splash() {
   return <div className="splash2" role="status" aria-label="読み込み中"><div><Cloud w={64} h={48} /><b>そらいろ</b><span>毎日を、ひとつの空で。</span></div></div>
@@ -44,6 +53,16 @@ export default function App() {
               <Route path="/news" element={<NewsList />} />
               <Route path="/news/:id" element={<NewsDetail />} />
               <Route path="/account" element={<Account />} />
+              <Route path="/account/profile" element={<AccountProfile />} />
+              <Route path="/account/notifications" element={<AccountNotifications />} />
+              <Route path="/account/security" element={<AccountSecurity />} />
+              <Route path="/card" element={<RequireStaff><Card /></RequireStaff>} />
+              <Route path="/attendance" element={<RequireStaff><Attendance /></RequireStaff>} />
+              <Route path="/admin" element={<RequireAdmin><AdminDash /></RequireAdmin>} />
+              <Route path="/admin/students" element={<RequireAdmin><AdminStudents /></RequireAdmin>} />
+              <Route path="/admin/students/:id" element={<RequireAdmin><AdminStudentEdit /></RequireAdmin>} />
+              <Route path="/admin/news" element={<RequireAdmin><AdminNewsList /></RequireAdmin>} />
+              <Route path="/admin/news/:id" element={<RequireAdmin><AdminNewsEdit /></RequireAdmin>} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
           </Routes>

@@ -5,6 +5,8 @@ export function toAppError(e: unknown, fallback = '処理に失敗しました�
   if (e instanceof AppError) return e
   const msg = String((e as { message?: string })?.message ?? e ?? '')
   const code = String((e as { code?: string })?.code ?? '')
+  if (code === 'P0001' && msg) return new AppError(msg) // データベース側のチェックが返した日本語の理由
+  if (code === '23505') return new AppError('すでに登録されています。')
   if (/failed to fetch|networkerror|network request failed|load failed/i.test(msg)) return new AppError('ネットワークに接続できません。通信状況を確認して、もう一度お試しください。')
   if (/invalid login credentials/i.test(msg)) return new AppError('メールアドレスまたはパスワードが正しくありません。')
   if (/email not confirmed/i.test(msg)) return new AppError('メールアドレスの確認が完了していません。')

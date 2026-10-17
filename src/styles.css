@@ -179,3 +179,6 @@ textarea{font:inherit;font-size:13px;color:var(--tx);background:none;border:0;fl
 .splash2{position:fixed;inset:0;display:grid;place-items:center;text-align:center;background:var(--surface);color:var(--sky)}
 .splash2 b{display:block;font-size:26px;letter-spacing:.1em;font-weight:700}.splash2 span{font-size:12px;color:var(--sub)}
 @media(min-width:900px){#tabs{display:none}}
+/* 調整: サイドナビは余白込みで208px（本文との重なり防止）/ ラベルが入力欄に重ならない幅 */
+.side{box-sizing:border-box}
+.fr span{width:8.5em}
