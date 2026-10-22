@@ -182,3 +182,6 @@ textarea{font:inherit;font-size:13px;color:var(--tx);background:none;border:0;fl
 /* 調整: サイドナビは余白込みで208px（本文との重なり防止）/ ラベルが入力欄に重ならない幅 */
 .side{box-sizing:border-box}
 .fr span{width:8.5em}
+.cred{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px}.cred .sub{width:100%}
+.cred code{flex:1;min-width:0;font:600 15px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:8px 10px;word-break:break-all;user-select:all}
+.cred .btn-l{margin:0;flex:none}

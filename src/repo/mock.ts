@@ -104,6 +104,18 @@ export const mockBackend: Backend = {
     async setPref(k, v) { const p = must(); const all = load<Record<string, Prefs>>('mock.prefs', {}); all[p.id] = { ...(all[p.id] ?? { notifyNews: true, notifyImportant: true }), [k]: v }; save('mock.prefs', all) },
     async listStudents(): Promise<Student[]> { needAdmin(); return PEOPLE.filter(managed).map((x) => ({ id: x.id, name: x.name, org: x.org, status: x.status })) },
     async getStudent(id) { needAdmin(); const x = PEOPLE.find((p) => p.id === id); return x && managed(x) ? { id: x.id, name: x.name, org: x.org, status: x.status } : null },
+    async createStudent(v) {
+      needAdmin()
+      const email = v.email.trim().toLowerCase(), name = v.name.trim()
+      if (!email) throw new AppError('メールアドレスを入力してください。')
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new AppError('メールアドレスの形式が正しくありません。')
+      if (!name) throw new AppError('氏名を入力してください。')
+      if (name.length > 30) throw new AppError('氏名は30文字以内で入力してください。')
+      if (PEOPLE.some((x) => x.email === email)) throw new AppError('このメールアドレスは、すでに登録されています。')
+      const password = 'Zx' + Math.random().toString(36).slice(2, 12).replace(/[01lIO]/g, 'k')
+      const id = 'n' + Date.now(); PEOPLE.push({ id, email, pw: password, name, org: v.org.trim(), status: 'active', roles: ['student'] })
+      audit(`生徒アカウントを作成: ${name}`); return { id, email, password }
+    },
     async updateStudent(id, v) {
       needAdmin(); const x = PEOPLE.find((p) => p.id === id)
       if (!x || !managed(x)) throw new AppError(OUT)

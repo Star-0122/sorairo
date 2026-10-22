@@ -16,6 +16,7 @@ export function AdminStudents() {
   const l = data.filter((u) => !q.trim() || (u.name + u.org).toLowerCase().includes(q.trim().toLowerCase()))
   return (
     <>
+      <div className="pad2" style={{ marginBottom: 0 }}><button className="btn-p" onClick={() => nav('/admin/students/new')}>生徒を追加</button></div>
       <div className="search"><Icon n="search" size={16} sw={2} /><input type="search" placeholder="生徒を検索" aria-label="生徒を検索" value={q} onChange={(e) => setQ(e.target.value)} /></div>
       <div className="lst">
         {l.length === 0 ? <Empty title={data.length ? '該当する生徒がいません' : '生徒がまだ登録されていません'}>{data.length ? '検索ワードを変えてみてください。' : '生徒のアカウントは、登録されるとここに表示されます。'}</Empty> : l.map((u) => (

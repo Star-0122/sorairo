@@ -24,6 +24,7 @@ const META: { path: string; key: string; title: string; back?: string }[] = [
   { path: '/attendance', key: 'home', title: '勤怠', back: '/' },
   { path: '/admin', key: 'home', title: '管理者', back: '/' },
   { path: '/admin/students', key: 'home', title: '生徒管理', back: '/admin' },
+  { path: '/admin/students/new', key: 'home', title: '生徒の追加', back: '/admin/students' },
   { path: '/admin/students/:id', key: 'home', title: '生徒の情報', back: '/admin/students' },
   { path: '/admin/news', key: 'home', title: 'お知らせ管理', back: '/admin' },
   { path: '/admin/news/new', key: 'home', title: 'お知らせの作成', back: '/admin/news' },

@@ -48,6 +48,7 @@ export interface DataApi {
   getDash(): Promise<AdminDash>
   listStudents(): Promise<Student[]>
   getStudent(id: string): Promise<Student | null>
+  createStudent(v: { name: string; email: string; org: string }): Promise<{ id: string; email: string; password: string }>
   updateStudent(id: string, v: { name: string; org: string; status: Student['status'] }): Promise<void>
   listAdminNews(): Promise<AdminNews[]>
   saveNews(v: { id?: string; title: string; body: string; important: boolean; status: AdminNews['status']; publishAt?: string }): Promise<string>

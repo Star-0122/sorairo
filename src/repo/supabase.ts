@@ -153,6 +153,18 @@ const data: DataApi = {
     if (!x || !role.data) return null
     return { id: x.id, name: x.display_name, org: x.org, status: x.status as Student['status'] }
   },
+  async createStudent(v) {
+    // アカウントの作成は、サーバー側の関数（Edge Function）が行う。強い権限の鍵は、ブラウザには存在しない
+    const { data: r, error } = await client().functions.invoke('admin-create-student', { body: { name: v.name, email: v.email, org: v.org } })
+    if (error) {
+      let msg = ''
+      try { const j = await (error as { context?: Response }).context?.json(); msg = typeof j?.message === 'string' ? j.message : '' } catch { /* 本文が読めない場合は一般的なメッセージ */ }
+      throw msg ? new AppError(msg) : toAppError(error, 'アカウントを作成できませんでした。時間をおいてもう一度お試しください。')
+    }
+    const x = r as { id?: string; email?: string; password?: string } | null
+    if (!x?.id || !x.password) throw new AppError('アカウントを作成できませんでした。時間をおいてもう一度お試しください。')
+    return { id: x.id, email: x.email ?? v.email, password: x.password }
+  },
   async updateStudent(id, v) {
     const n = v.name.trim()
     if (!n) throw new AppError('氏名を入力してください。')

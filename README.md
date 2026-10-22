@@ -2,6 +2,11 @@
 
 React + TypeScript + Vite / バックエンド: Supabase（東京リージョン）
 
+> **⚠ 重要：ソース一式と、公開用のビルド済みファイルを、同じリポジトリに入れないでください。**
+> どちらにも `index.html` があり、後から入れた方が上書きされて、**画面が真っ白（または「画面を読み込めませんでした」）になります。**
+> - **公開用のリポジトリ（Pages の Source が「Deploy from a branch」）：** `sorairo-pages-ready.zip` の中身（`index.html`、`404.html`、`assets`）**だけ**を置く
+> - **ソース一式（`sorairo-github.zip`）：** 別のリポジトリ（例: `sorairo-source`・非公開でも可）に置く。自動公開（GitHub Actions）を使う場合は、そのリポジトリの Source を「GitHub Actions」にする
+
 ## GitHub で公開する手順（GitHub Pages・無料）
 このフォルダは、そのまま GitHub に置くと、自動でビルドして公開される設定（`.github/workflows`）が入っています。
 
@@ -69,3 +74,12 @@ npm run build       # 本番ビルド（dist/）
 npm run build:mock  # 模擬バックエンドでのビルド（動作確認用。公開しないこと）
 ```
 接続先は `.env.production`（公開してよい URL と公開用キーのみ）。**service_role キーは絶対に書かないでください。**
+
+## サーバー側の処理（Supabase Edge Function）
+- `admin-create-student` … 管理者が生徒のアカウントを作る。**作れるのは「生徒」だけ**（ロールは固定）。
+  - 強い権限の鍵（`service_role`）は、この関数の実行環境（Supabase のサーバー内）にだけあり、ブラウザやこのリポジトリには存在しません。
+  - 呼び出した人が管理者かどうかを、サーバー側で確認します（画面の表示には頼りません）。
+  - 初期パスワードは自動生成し、作成直後に1回だけ画面に表示します。
+  - 呼び出しを許可する公開先は、環境変数 `ALLOWED_ORIGINS`（既定は `https://star-0122.github.io`）。**公開先のドメインを変えたら、この値も更新してください。**
+- ソースは `supabase/functions/admin-create-student/`。判断部分のテストは `node --experimental-strip-types supabase/functions/admin-create-student/test_core.mjs`
+- データベースの定義は `supabase/migrations/`（本番に適用済みの内容の記録）

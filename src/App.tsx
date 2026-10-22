@@ -19,6 +19,7 @@ import Card from './pages/Card'
 import Attendance from './pages/Attendance'
 import AdminDash from './pages/AdminDash'
 import { AdminStudents, AdminStudentEdit } from './pages/AdminStudents'
+import AdminStudentNew from './pages/AdminStudentNew'
 import { AdminNewsList, AdminNewsEdit } from './pages/AdminNews'
 import { RequireAdmin, RequireStaff } from './components/Guards'
 
@@ -60,6 +61,7 @@ export default function App() {
               <Route path="/attendance" element={<RequireStaff><Attendance /></RequireStaff>} />
               <Route path="/admin" element={<RequireAdmin><AdminDash /></RequireAdmin>} />
               <Route path="/admin/students" element={<RequireAdmin><AdminStudents /></RequireAdmin>} />
+              <Route path="/admin/students/new" element={<RequireAdmin><AdminStudentNew /></RequireAdmin>} />
               <Route path="/admin/students/:id" element={<RequireAdmin><AdminStudentEdit /></RequireAdmin>} />
               <Route path="/admin/news" element={<RequireAdmin><AdminNewsList /></RequireAdmin>} />
               <Route path="/admin/news/:id" element={<RequireAdmin><AdminNewsEdit /></RequireAdmin>} />
